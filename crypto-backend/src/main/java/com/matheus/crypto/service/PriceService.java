@@ -12,9 +12,16 @@ public class PriceService {
     @Autowired
     private PriceWebSocketHandler webSocketHandler;
     
+    @Autowired
+    private CoinGeckoService coinGeckoService;
+    
     @Scheduled(fixedRate = 6000) // 6 seconds
     public void fetchAndSendPrices() {
-        CoinPrice btcPrice = new CoinPrice("BTC", 50000.0); // Simulated price
-        webSocketHandler.sendPriceUpdate(btcPrice);
+        try {
+            CoinPrice btcPrice = coinGeckoService.fetchBitcoinPrice();
+            webSocketHandler.sendPriceUpdate(btcPrice);
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
     }
 }
