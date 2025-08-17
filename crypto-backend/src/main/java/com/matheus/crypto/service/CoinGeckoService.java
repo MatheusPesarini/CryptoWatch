@@ -2,6 +2,7 @@ package com.matheus.crypto.service;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.matheus.crypto.model.CoinPrice;
+import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -18,6 +19,15 @@ public class CoinGeckoService {
     
     @Value("${coingecko.api.key}")
     private String apiKey;
+
+    @PostConstruct
+    public void init() {
+        System.out.println("=== DEBUG VARIÁVEIS DE AMBIENTE ===");
+        System.out.println("coinGeckoApiUrl: " + coinGeckoApiUrl);
+        System.out.println(apiKey);
+        System.out.println("apiKey: " + (apiKey != null && !apiKey.isEmpty() ? "***CONFIGURADA***" : "VAZIA"));
+        System.out.println("===============================");
+    }
     
     public CoinPrice fetchBitcoinPrice() {
         String bitcoinUrl = coinGeckoApiUrl + "?ids=bitcoin&vs_currencies=brl";
