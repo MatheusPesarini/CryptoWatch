@@ -3,7 +3,7 @@ package com.matheus.crypto.handler;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import com.matheus.crypto.model.CoinPrice;
+import com.matheus.crypto.model.CoinModel;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
@@ -34,7 +34,7 @@ public class PriceWebSocketHandler extends TextWebSocketHandler {
         sessions.remove(session);
     }
     
-    public void sendPriceUpdate(CoinPrice price) {
+    public void sendPriceUpdate(CoinModel price) {
         try {
             String message = objectMapper.writeValueAsString(price);
             sessions.forEach(session -> {

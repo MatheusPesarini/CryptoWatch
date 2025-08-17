@@ -1,7 +1,8 @@
 'use client'
-import { CryptoProps } from '@/lib/types/crypto'
-import { Card, CardDescription, CardHeader, CardTitle } from '../ui/card'
+import type { CryptoProps } from '@/lib/types/crypto'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../ui/card'
 import { useEffect, useRef, useState } from 'react'
+import { Button } from '../ui/button'
 
 export function CryptoCard({ quote, onRemove }: CryptoProps) {
   const prevPrice = useRef<number | undefined>(undefined)
@@ -21,14 +22,26 @@ export function CryptoCard({ quote, onRemove }: CryptoProps) {
     : '--'
 
   return (
-    <Card>
+    <Card className="w-56 relative">
       <CardHeader>
-        <CardTitle>Noteworthy technology acquisitions 2021</CardTitle>
-        <CardDescription>
-          Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse
-          chronological order.
-        </CardDescription>
+        <CardTitle>
+          <span>{quote.coin}</span>
+          <Button onClick={onRemove}>Remove</Button>
+        </CardTitle>
+        <CardDescription>{quote.price ? 'Atualizado' : 'Aguardando...'}</CardDescription>
       </CardHeader>
+      <CardContent>
+        <div
+          className={`text-lg font-semibold tabular-nums transition-colors ${flash === 'up'
+            ? 'text-green-600'
+            : flash === 'down'
+              ? 'text-red-600'
+              : 'text-foreground'
+            }`}
+        >
+          {priceStr}
+        </div>
+      </CardContent>
     </Card>
   )
 }
